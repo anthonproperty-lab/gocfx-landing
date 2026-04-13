@@ -48,6 +48,22 @@
 
         header p { color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto 30px; }
 
+        /* Style untuk Logo */
+       .logo-container {
+       text-align: center;
+       margin-bottom: 20px;
+       }
+       .logo-img {
+       max-width: 180px; /* Ukuran lebar logo */
+       height: auto;
+       filter: drop-shadow(0 0 10px rgba(34, 197, 94, 0.2)); /* Efek cahaya tipis */
+      }
+
+     @media(max-width:768px){
+    .logo-img {
+        max-width: 140px; /* Ukuran lebih kecil di HP */
+      }
+     }
         /* Buttons */
         .btn-group { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
         .btn {
@@ -157,6 +173,10 @@
 <body>
 
 <header>
+    <div class="logo-container">
+        <img src="Assets/logo.PNG" alt="GOCFX Logo" class="logo-img">
+    </div>
+
     <h1>GOCFX Trading System</h1>
     <p>Algoritma trading cerdas ICDEX (Insight Charting And Derivative Expert) untuk pertumbuhan aset yang konsisten dan terukur.</p>
     <div class="btn-group">
