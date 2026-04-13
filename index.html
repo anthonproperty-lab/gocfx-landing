@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GOCFX - PT ICDEX</title>
+
+  <style>
+    body { margin:0; font-family:Arial, sans-serif; background:#0f172a; color:white; }
+    header { text-align:center; padding:80px 20px; background:linear-gradient(135deg,#1e293b,#020617); }
+    header h1 { font-size:40px; }
+    header p { color:#94a3b8; }
+
+    .btn {
+      display:inline-block;
+      margin-top:20px;
+      padding:12px 25px;
+      background:#22c55e;
+      color:black;
+      text-decoration:none;
+      border-radius:8px;
+      font-weight:bold;
+    }
+
+    section { padding:60px 20px; max-width:1100px; margin:auto; }
+    h2 { text-align:center; margin-bottom:40px; }
+
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; }
+
+    .card { background:#1e293b; padding:20px; border-radius:12px; transition:0.3s; }
+    .card:hover { transform:translateY(-5px); background:#334155; }
+
+    .chart-box { background:#1e293b; padding:20px; border-radius:12px; }
+    canvas { width:100%; height:300px; }
+
+    .floating-wa {
+      position:fixed; bottom:20px; right:20px;
+      background:#22c55e; color:black;
+      padding:15px; border-radius:50%; text-decoration:none;
+      font-weight:bold;
+    }
+
+    .popup {
+      position:fixed; bottom:20px; left:20px;
+      background:#1e293b; padding:12px; border-radius:10px;
+      display:none; font-size:13px;
+    }
+
+    .countdown { text-align:center; font-size:22px; color:#22c55e; }
+
+    footer { text-align:center; padding:30px; background:#020617; color:#94a3b8; }
+
+    @media(max-width:768px){
+      header h1{font-size:28px}
+      section{padding:40px 15px}
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>GOCFX Trading System</h1>
+  <p>by PT. ICDEX (Insight Charting & Derivative Expert)</p>
+  <p>High Probability Trading System untuk Investor Modern</p>
+  <a href="https://docs.google.com/forms/d/e/1FAIpQLSffru2cQiAw83FyrDWUgig1XJ-u4L0uAjRt9EmhQZ23IYoglw/viewform?usp=publish-editor" class="btn">Registrasi Sekarang</a>
+  <br>
+  <a href="https://wa.me/6281274254052?text=Saya%20ingin%20konsultasi%20GOCFX" class="btn">Konsultasi WhatsApp</a>
+</header>
+
+<section>
+  <h2>Simulasi Profit 1 Bulan - GOCFX-MO</h2>
+
+  <div style="text-align:center; margin-bottom:20px;">
+    <input id="modalInput" type="number" placeholder="Masukkan Modal (USD)" style="padding:10px; border-radius:8px; border:none; width:200px;">
+    <button onclick="generateSimulation()" class="btn">Hitung</button>
+  </div>
+
+  <div class="chart-box">
+    <canvas id="chart"></canvas>
+  </div>
+
+  <div style="text-align:center; margin-top:15px;" id="result"></div>
+</section>
+
+<section>
+  <h2>Pilihan Robot Trading</h2>
+  <div class="grid">
+    <div class="card"><h3>GOCFX-CO</h3><p>10% – 20%+ / bulan</p></div>
+    <div class="card"><h3>GOCFX-MO</h3><p>30% – 50%+ / bulan</p></div>
+    <div class="card"><h3>GOCFX-AG</h3><p>50%+ / bulan</p></div>
+    <div class="card"><h3>GOCFX-CR</h3><p>30%+ / bulan</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>Skema Investasi</h2>
+  <div class="grid">
+    <div class="card"><h3>Biaya Setup</h3><p>Rp 3.000.000</p></div>
+    <div class="card"><h3>Profit Sharing</h3><p>70% Investor</p><p>30% Pengelola</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>Testimoni</h2>
+  <div class="grid">
+    <div class="card">"Profit stabil" - Budi Jakarta</div>
+    <div class="card">"Sudah 3 bulan konsisten" - Andi Medan</div>
+  </div>
+</section>
+
+<section>
+  <h2>Countdown Slot</h2>
+  <div class="countdown" id="countdown"></div>
+</section>
+
+<a href="https://wa.me/6281274254052?text=Saya%20siap%20registrasi" class="floating-wa">WA</a>
+
+<div class="popup" id="popup"></div>
+
+<footer>
+  <p>© 2026 PT. ICDEX - GOCFX System</p>
+  <p>High Risk Investment. No Fixed Profit Guarantee.</p>
+</footer>
+
+<script>
+const ctx = document.getElementById('chart').getContext('2d');
+
+function generateSimulation(){
+  let modal = parseFloat(document.getElementById('modalInput').value);
+  if(!modal || modal <= 0){
+    alert("Masukkan modal yang valid");
+    return;
+  }
+
+  let balance=[];
+  let base = modal;
+
+  for(let i=0;i<30;i++){
+    base += base*(Math.random()*0.02+0.01);
+    balance.push(base);
+  }
+
+  // 🔥 AUTO SCALE (INI KUNCI FIX)
+  let max = Math.max(...balance);
+  let min = Math.min(...balance);
+
+  let canvasWidth = ctx.canvas.width;
+  let canvasHeight = ctx.canvas.height;
+
+  let padding = 20;
+  let scaleY = (canvasHeight - padding*2) / (max - min);
+
+  ctx.clearRect(0,0,canvasWidth,canvasHeight);
+
+  ctx.beginPath();
+
+  balance.forEach((val, i) => {
+    let x = (i / (balance.length-1)) * (canvasWidth - padding*2) + padding;
+    let y = canvasHeight - ((val - min) * scaleY) - padding;
+
+    if(i === 0){
+      ctx.moveTo(x, y);
+    } else {
+      ctx.lineTo(x, y);
+    }
+  });
+
+  ctx.strokeStyle = '#22c55e';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // RESULT
+  let profit = base - modal;
+  let percent = ((profit/modal)*100).toFixed(1);
+
+  document.getElementById('result').innerHTML =
+    `Modal: $${modal.toLocaleString()}<br>
+     Estimasi: $${Math.round(base).toLocaleString()}<br>
+     Profit: +${percent}%`;
+}
+// popup
+const names=["Budi Jakarta","Rina Bandung","Andi Medan"];
+setInterval(()=>{
+ let p=document.getElementById('popup');
+ p.innerText = names[Math.floor(Math.random()*names.length)] + " baru join";
+ p.style.display='block';
+ setTimeout(()=>p.style.display='none',3000);
+},8000);
+
+// countdown
+let t=1800;
+setInterval(()=>{
+ let m=Math.floor(t/60);
+ let s=t%60;
+ document.getElementById('countdown').innerText=m+":"+(s<10?"0":"")+s;
+ t--;
+},1000);
+</script>
+
+</body>
+</html>
