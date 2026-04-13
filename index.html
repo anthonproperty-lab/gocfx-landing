@@ -158,9 +158,9 @@
 
 <header>
     <h1>GOCFX Trading System</h1>
-    <p>Algoritma trading cerdas oleh ICDEX (Insight Charting And Derivative Expert) untuk pertumbuhan aset yang konsisten dan terukur.</p>
+    <p>Algoritma trading cerdas ICDEX (Insight Charting And Derivative Expert) untuk pertumbuhan aset yang konsisten dan terukur.</p>
     <div class="btn-group">
-        <a href="https://docs.google.com/forms/..." class="btn btn-primary">
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSffru2cQiAw83FyrDWUgig1XJ-u4L0uAjRt9EmhQZ23IYoglw/viewform?usp=publish-editor" class="btn btn-primary">
             <i class="fas fa-edit"></i> Registrasi Sekarang
         </a>
         <a href="https://wa.me/6281274254052?text=Konsultasi" class="btn btn-outline">
@@ -298,7 +298,7 @@ function generateSimulation() {
     for (let i = 0; i <= days; i++) {
         labels.push("Hari " + i);
         data.push(currentBalance.toFixed(2));
-        currentBalance += currentBalance * (Math.random() * 0.022 + 0.01); // Variasi profit harian
+        currentBalance += currentBalance * (Math.random() * 0.012 + 0.01); // Variasi profit harian
     }
 
     const profit = currentBalance - modal;
