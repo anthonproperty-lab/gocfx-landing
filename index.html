@@ -1,201 +1,367 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GOCFX - PT ICDEX</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOCFX - PT ICDEX | Trading System Expert</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-  <style>
-    body { margin:0; font-family:Arial, sans-serif; background:#0f172a; color:white; }
-    header { text-align:center; padding:80px 20px; background:linear-gradient(135deg,#1e293b,#020617); }
-    header h1 { font-size:40px; }
-    header p { color:#94a3b8; }
+    <style>
+        :root {
+            --primary: #22c55e;
+            --primary-dark: #16a34a;
+            --bg-dark: #020617;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
 
-    .btn {
-      display:inline-block;
-      margin-top:20px;
-      padding:12px 25px;
-      background:#22c55e;
-      color:black;
-      text-decoration:none;
-      border-radius:8px;
-      font-weight:bold;
-    }
+        * { box-sizing: border-box; }
+        body { 
+            margin: 0; 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg-dark); 
+            color: var(--text-main); 
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
 
-    section { padding:60px 20px; max-width:1100px; margin:auto; }
-    h2 { text-align:center; margin-bottom:40px; }
+        /* Hero Section */
+        header { 
+            position: relative;
+            text-align: center; 
+            padding: 120px 20px 80px; 
+            background: radial-gradient(circle at top right, #1e293b, #020617);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
 
-    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; }
+        header h1 { 
+            font-size: clamp(2rem, 5vw, 3.5rem); 
+            margin-bottom: 10px; 
+            background: linear-gradient(to right, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-    .card { background:#1e293b; padding:20px; border-radius:12px; transition:0.3s; }
-    .card:hover { transform:translateY(-5px); background:#334155; }
+        header p { color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto 30px; }
 
-    .chart-box { background:#1e293b; padding:20px; border-radius:12px; }
-    canvas { width:100%; height:300px; }
+        /* Buttons */
+        .btn-group { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+        .btn {
+            padding: 14px 28px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-primary { background: var(--primary); color: #000; }
+        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(34, 197, 94, 0.2); }
+        .btn-outline { border: 1px solid var(--text-muted); color: var(--text-main); }
+        .btn-outline:hover { background: rgba(255,255,255,0.1); }
 
-    .floating-wa {
-      position:fixed; bottom:20px; right:20px;
-      background:#22c55e; color:black;
-      padding:15px; border-radius:50%; text-decoration:none;
-      font-weight:bold;
-    }
+        /* Section Layout */
+        section { padding: 80px 20px; max-width: 1200px; margin: auto; }
+        h2 { text-align: center; font-size: 2rem; margin-bottom: 50px; position: relative; }
+        h2::after { content: ''; width: 50px; height: 4px; background: var(--primary); position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); border-radius: 2px; }
 
-    .popup {
-      position:fixed; bottom:20px; left:20px;
-      background:#1e293b; padding:12px; border-radius:10px;
-      display:none; font-size:13px;
-    }
+        /* Simulation Box */
+        .simulation-container {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .input-group { 
+            display: flex; 
+            justify-content: center; 
+            gap: 10px; 
+            margin-bottom: 30px; 
+        }
+        input[type="number"] {
+            background: #0f172a;
+            border: 1px solid #334155;
+            padding: 12px 20px;
+            border-radius: 10px;
+            color: white;
+            width: 250px;
+            outline: none;
+        }
+        input:focus { border-color: var(--primary); }
 
-    .countdown { text-align:center; font-size:22px; color:#22c55e; }
+        /* Cards Grid */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 25px; }
+        .card { 
+            background: var(--card-bg); 
+            padding: 30px; 
+            border-radius: 16px; 
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.3s ease;
+            text-align: center;
+        }
+        .card:hover { transform: translateY(-10px); border-color: var(--primary); background: rgba(30, 41, 59, 0.9); }
+        .card h3 { color: var(--primary); margin-top: 0; }
+        .card p { font-size: 1.2rem; font-weight: bold; margin: 10px 0; }
 
-    footer { text-align:center; padding:30px; background:#020617; color:#94a3b8; }
+        /* Stats Section */
+        .result-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .stat-item { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px; }
+        .stat-label { font-size: 0.8rem; color: var(--text-muted); display: block; }
+        .stat-value { font-size: 1.1rem; font-weight: bold; color: var(--primary); }
 
-    @media(max-width:768px){
-      header h1{font-size:28px}
-      section{padding:40px 15px}
-    }
-  </style>
+        /* Widgets */
+        .floating-wa {
+            position: fixed; bottom: 30px; right: 30px;
+            background: #25d366; color: white;
+            width: 60px; height: 60px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 30px; text-decoration: none; z-index: 999;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        .popup-notif {
+            position: fixed; bottom: 30px; left: 30px;
+            background: #1e293b; border-left: 4px solid var(--primary);
+            padding: 15px 25px; border-radius: 8px;
+            transform: translateX(-150%); transition: 0.5s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 998;
+        }
+        .popup-notif.active { transform: translateX(0); }
+
+        .countdown-container {
+            text-align: center; background: #0f172a; padding: 20px; border-radius: 15px;
+            border: 1px dashed var(--primary); margin-top: 40px;
+        }
+        #countdown { font-size: 2.5rem; font-weight: 800; letter-spacing: 2px; color: var(--primary); }
+
+        footer { text-align: center; padding: 60px 20px; background: #020617; border-top: 1px solid rgba(255,255,255,0.05); color: var(--text-muted); }
+
+        @media(max-width:768px){
+            .input-group { flex-direction: column; align-items: center; }
+            input[type="number"] { width: 100%; }
+            .result-stats { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
-
 <body>
 
 <header>
-  <h1>GOCFX Trading System</h1>
-  <p>by PT. ICDEX (Insight Charting & Derivative Expert)</p>
-  <p>High Probability Trading System untuk Investor Modern</p>
-  <a href="https://docs.google.com/forms/d/e/1FAIpQLSffru2cQiAw83FyrDWUgig1XJ-u4L0uAjRt9EmhQZ23IYoglw/viewform?usp=publish-editor" class="btn">Registrasi Sekarang</a>
-  <br>
-  <a href="https://wa.me/6281274254052?text=Saya%20ingin%20konsultasi%20GOCFX" class="btn">Konsultasi WhatsApp</a>
+    <h1>GOCFX Trading System</h1>
+    <p>Algoritma trading cerdas ICDEX (Insight Charting And Derivative Expert) untuk pertumbuhan aset yang konsisten dan terukur.</p>
+    <div class="btn-group">
+        <a href="https://docs.google.com/forms/..." class="btn btn-primary">
+            <i class="fas fa-edit"></i> Registrasi Sekarang
+        </a>
+        <a href="https://wa.me/6281274254052?text=Konsultasi" class="btn btn-outline">
+            <i class="fab fa-whatsapp"></i> Konsultasi Gratis
+        </a>
+    </div>
 </header>
 
 <section>
-  <h2>Simulasi Profit 1 Bulan - GOCFX-MO</h2>
-
-  <div style="text-align:center; margin-bottom:20px;">
-    <input id="modalInput" type="number" placeholder="Masukkan Modal (USD)" style="padding:10px; border-radius:8px; border:none; width:200px;">
-    <button onclick="generateSimulation()" class="btn">Hitung</button>
-  </div>
-
-  <div class="chart-box">
-    <canvas id="chart"></canvas>
-  </div>
-
-  <div style="text-align:center; margin-top:15px;" id="result"></div>
+    <h2>Simulasi Profit (GOCFX-MO)</h2>
+    <div class="simulation-container">
+        <div class="input-group">
+            <input id="modalInput" type="number" placeholder="Masukkan Modal (USD)" value="1000">
+            <button onclick="generateSimulation()" class="btn btn-primary">Hitung Simulasi</button>
+        </div>
+        <canvas id="chartCanvas" style="max-height: 400px;"></canvas>
+        <div id="resultDisplay" class="result-stats" style="display: none;">
+            <div class="stat-item">
+                <span class="stat-label">Initial Balance</span>
+                <span id="resModal" class="stat-value"></span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Estimated Ending</span>
+                <span id="resTotal" class="stat-value"></span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Profit Percentage</span>
+                <span id="resPercent" class="stat-value"></span>
+            </div>
+        </div>
+    </div>
 </section>
 
 <section>
   <h2>Pilihan Robot Trading</h2>
   <div class="grid">
-    <div class="card"><h3>GOCFX-CO</h3><p>10% – 20%+ / bulan</p></div>
-    <div class="card"><h3>GOCFX-MO</h3><p>30% – 50%+ / bulan</p></div>
-    <div class="card"><h3>GOCFX-AG</h3><p>50%+ / bulan</p></div>
-    <div class="card"><h3>GOCFX-CR</h3><p>30%+ / bulan</p></div>
+    <div class="card">
+      <i class="fas fa-shield-halved fa-2x" style="color:var(--primary)"></i>
+      <h3>GOCFX-CO</h3>
+      <p>10% – 20% / bln</p>
+      <ul style="text-align: left; font-size: 0.85rem; color: var(--text-muted); padding-left: 15px;">
+        <li>Fokus pada Capital Preservation</li>
+        <li>Drawdown sangat rendah (< 5%)</li>
+        <li>Cocok untuk modal besar/institusi</li>
+        <li>Strategi: Trend Following Konservatif</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <i class="fas fa-chart-line fa-2x" style="color:var(--primary)"></i>
+      <h3>GOCFX-MO</h3>
+      <p>30% – 50% / bln</p>
+      <ul style="text-align: left; font-size: 0.85rem; color: var(--text-muted); padding-left: 15px;">
+        <li>Keseimbangan Profit & Risiko</li>
+        <li>Drawdown moderat (10-15%)</li>
+        <li>Target harian 1.5% - 2%</li>
+        <li>Strategi: Multi-Indikator Scalping</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <i class="fas fa-fire fa-2x" style="color:var(--primary)"></i>
+      <h3>GOCFX-AG</h3>
+      <p>50%+ / bln</p>
+      <ul style="text-align: left; font-size: 0.85rem; color: var(--text-muted); padding-left: 15px;">
+        <li>Maksimalisasi Profit (High Gain)</li>
+        <li>Risk management agresif</li>
+        <li>Cocok untuk compounding cepat</li>
+        <li>Strategi: Martingale Aman & Hedging</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <i class="fas fa-coins fa-2x" style="color:var(--primary)"></i>
+      <h3>GOCFX-CR</h3>
+      <p>30%+ / bln</p>
+      <ul style="text-align: left; font-size: 0.85rem; color: var(--text-muted); padding-left: 15px;">
+        <li>Khusus Market Crypto (BTC/ETH)</li>
+        <li>Beroperasi 24/7 tanpa henti</li>
+        <li>Kebal terhadap volatilitas tinggi</li>
+        <li>Strategi: Arbitrase & Micro-Trend</li>
+      </ul>
+    </div>
   </div>
 </section>
 
 <section>
-  <h2>Skema Investasi</h2>
-  <div class="grid">
-    <div class="card"><h3>Biaya Setup</h3><p>Rp 3.000.000</p></div>
-    <div class="card"><h3>Profit Sharing</h3><p>70% Investor</p><p>30% Pengelola</p></div>
-  </div>
+    <h2>Skema Kerjasama</h2>
+    <div class="grid">
+        <div class="card">
+            <h3>Biaya Setup</h3>
+            <p>Rp 3.000.000</p>
+            <span style="font-size: 0.8rem">Sekali bayar untuk lisensi lifetime</span>
+        </div>
+        <div class="card">
+            <h3>Profit Sharing</h3>
+            <p>70 : 30</p>
+            <span style="font-size: 0.8rem">70% Investor | 30% Pengelola</span>
+        </div>
+    </div>
 </section>
 
 <section>
-  <h2>Testimoni</h2>
-  <div class="grid">
-    <div class="card">"Profit stabil" - Budi Jakarta</div>
-    <div class="card">"Sudah 3 bulan konsisten" - Andi Medan</div>
-  </div>
+    <div class="countdown-container">
+        <h3>Slot Terbatas! Promo Berakhir Dalam:</h3>
+        <div id="countdown">30:00</div>
+    </div>
 </section>
 
-<section>
-  <h2>Countdown Slot</h2>
-  <div class="countdown" id="countdown"></div>
-</section>
+<a href="https://wa.me/6281274254052" class="floating-wa" target="_blank">
+    <i class="fab fa-whatsapp"></i>
+</a>
 
-<a href="https://wa.me/6281274254052?text=Saya%20siap%20registrasi" class="floating-wa">WA</a>
-
-<div class="popup" id="popup"></div>
+<div class="popup-notif" id="popupNotif">
+    <i class="fas fa-check-circle" style="color:var(--primary)"></i> <span id="popupText"></span>
+</div>
 
 <footer>
-  <p>© 2026 PT. ICDEX - GOCFX System</p>
-  <p>High Risk Investment. No Fixed Profit Guarantee.</p>
+    <p>© 2026 ICDEX - GOCFX System Expert</p>
+    <p style="font-size: 0.8rem; margin-top: 10px;">Peringatan Risiko: Investasi derivatif memiliki risiko tinggi. Kinerja masa lalu tidak menjamin hasil masa depan. Tidak ada jaminan profit tetap.</p>
 </footer>
 
 <script>
-const ctx = document.getElementById('chart').getContext('2d');
+let myChart;
 
-function generateSimulation(){
-  let modal = parseFloat(document.getElementById('modalInput').value);
-  if(!modal || modal <= 0){
-    alert("Masukkan modal yang valid");
-    return;
-  }
+function generateSimulation() {
+    const modal = parseFloat(document.getElementById('modalInput').value);
+    if (!modal || modal <= 0) return alert("Input modal valid!");
 
-  let balance=[];
-  let base = modal;
+    const days = 30;
+    let labels = [];
+    let data = [];
+    let currentBalance = modal;
 
-  for(let i=0;i<30;i++){
-    base += base*(Math.random()*0.02+0.01);
-    balance.push(base);
-  }
-
-  // 🔥 AUTO SCALE (INI KUNCI FIX)
-  let max = Math.max(...balance);
-  let min = Math.min(...balance);
-
-  let canvasWidth = ctx.canvas.width;
-  let canvasHeight = ctx.canvas.height;
-
-  let padding = 20;
-  let scaleY = (canvasHeight - padding*2) / (max - min);
-
-  ctx.clearRect(0,0,canvasWidth,canvasHeight);
-
-  ctx.beginPath();
-
-  balance.forEach((val, i) => {
-    let x = (i / (balance.length-1)) * (canvasWidth - padding*2) + padding;
-    let y = canvasHeight - ((val - min) * scaleY) - padding;
-
-    if(i === 0){
-      ctx.moveTo(x, y);
-    } else {
-      ctx.lineTo(x, y);
+    for (let i = 0; i <= days; i++) {
+        labels.push("Hari " + i);
+        data.push(currentBalance.toFixed(2));
+        currentBalance += currentBalance * (Math.random() * 0.022 + 0.01); // Variasi profit harian
     }
-  });
 
-  ctx.strokeStyle = '#22c55e';
-  ctx.lineWidth = 2;
-  ctx.stroke();
+    const profit = currentBalance - modal;
+    const percent = ((profit / modal) * 100).toFixed(1);
 
-  // RESULT
-  let profit = base - modal;
-  let percent = ((profit/modal)*100).toFixed(1);
+    // Update Stats
+    document.getElementById('resultDisplay').style.display = 'grid';
+    document.getElementById('resModal').innerText = `$${modal.toLocaleString()}`;
+    document.getElementById('resTotal').innerText = `$${Math.round(currentBalance).toLocaleString()}`;
+    document.getElementById('resPercent').innerText = `+${percent}%`;
 
-  document.getElementById('result').innerHTML =
-    `Modal: $${modal.toLocaleString()}<br>
-     Estimasi: $${Math.round(base).toLocaleString()}<br>
-     Profit: +${percent}%`;
+    // Chart.js implementation
+    const ctx = document.getElementById('chartCanvas').getContext('2d');
+    if (myChart) myChart.destroy();
+
+    myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Estimasi Saldo (USD)',
+                data: data,
+                borderColor: '#22c55e',
+                backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                fill: true,
+                tension: 0.4,
+                pointRadius: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } },
+                x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+            }
+        }
+    });
 }
-// popup
-const names=["Budi Jakarta","Rina Bandung","Andi Medan"];
-setInterval(()=>{
- let p=document.getElementById('popup');
- p.innerText = names[Math.floor(Math.random()*names.length)] + " baru join";
- p.style.display='block';
- setTimeout(()=>p.style.display='none',3000);
-},8000);
 
-// countdown
-let t=1800;
-setInterval(()=>{
- let m=Math.floor(t/60);
- let s=t%60;
- document.getElementById('countdown').innerText=m+":"+(s<10?"0":"")+s;
- t--;
-},1000);
+// Popup Notif Logic
+const names = ["Andi dari Jakarta", "Siska dari Surabaya", "Budi dari Medan", "Rian dari Bali", "Dewi dari Bandung"];
+function showPopup() {
+    const popup = document.getElementById('popupNotif');
+    const text = document.getElementById('popupText');
+    text.innerText = names[Math.floor(Math.random() * names.length)] + " baru saja bergabung.";
+    popup.classList.add('active');
+    setTimeout(() => popup.classList.remove('active'), 4000);
+}
+setInterval(showPopup, 12000);
+
+// Countdown Timer
+let time = 1800;
+const timerEl = document.getElementById('countdown');
+setInterval(() => {
+    let m = Math.floor(time / 60);
+    let s = time % 60;
+    timerEl.innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
+    if (time > 0) time--;
+}, 1000);
+
+// Initialize
+window.onload = generateSimulation;
 </script>
 
 </body>
