@@ -168,6 +168,55 @@
             input[type="number"] { width: 100%; }
             .result-stats { grid-template-columns: 1fr; }
         }
+
+
+    .account-performance-widget {
+        background: rgba(15, 23, 42, 0.8);
+        border: 1px solid rgba(34, 197, 94, 0.3); /* Border hijau tipis khas IQ Automatic */
+        padding: 20px;
+        border-radius: 16px;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+    .perf-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px 10px;
+        margin-top: 15px;
+    }
+    .perf-item {
+        display: flex;
+        flex-direction: column;
+        border-left: 1px solid rgba(255,255,255,0.05);
+        padding-left: 10px;
+    }
+    .perf-label {
+        font-size: 0.6rem;
+        color: #94a3b8;
+        text-transform: uppercase;
+        margin-bottom: 2px;
+    }
+    .perf-value {
+        font-size: 1rem;
+        font-weight: 700;
+        font-family: 'Inter', sans-serif;
+        color: #f8fafc;
+    }
+    .text-success { color: #22c55e !important; }
+    .text-danger { color: #ef4444 !important; }
+    .status-indicator {
+        width: 6px;
+        height: 6px;
+        background: #22c55e;
+        border-radius: 50%;
+        animation: blink 2s infinite;
+    }
+    @keyframes blink {
+        0% { opacity: 0.3; }
+        50% { opacity: 1; box-shadow: 0 0 8px #22c55e; }
+        100% { opacity: 0.3; }
+    }
+
+
     </style>
 </head>
 <body>
@@ -218,7 +267,7 @@
   <h2>Pilihan Robot Trading</h2>
   <div class="grid">
     <div class="card">
-      <i class="fas fa-shield-halved fa-2x" style="color:var(--primary)"></i>
+      <i class="fas fa-chart-line fa-2x" style="color:var(--primary)"></i>
       <h3>GOCFX-CO</h3>
       <p>10% – 20% / bln</p>
       <ul style="text-align: left; font-size: 0.85rem; color: var(--text-muted); padding-left: 15px;">
@@ -266,22 +315,88 @@
     </div>
   </div>
 </section>
-
 <section>
-    <h2>Skema Kerjasama</h2>
+    <h2>Model Kerjasama</h2>
     <div class="grid">
         <div class="card">
-            <h3>Biaya Setup</h3>
-            <p>Rp 3.000.000</p>
-            <span style="font-size: 0.8rem">Sekali bayar untuk lisensi lifetime</span>
+            <i class="fas fa-copy fa-2x" style="color:var(--primary); margin-bottom:15px;"></i>
+            <h3>Copy Trading</h3>
+            <p style="font-size: 0.9rem; font-weight: normal; color: var(--text-muted);">
+                Kontrol penuh di tangan Anda. Akun Anda otomatis mengikuti transaksi master kami.
+            </p>
+            <ul style="text-align: left; font-size: 0.8rem; color: var(--text-muted); padding-top: 10px;">
+                <li><i class="fas fa-check text-primary"></i> Dana di akun sendiri</li>
+                <li><i class="fas fa-check text-primary"></i> Bebas WD kapan saja</li>
+                <li><i class="fas fa-check text-primary"></i> Profit Sharing 70:30</li>
+            </ul>
         </div>
+
         <div class="card">
-            <h3>Profit Sharing</h3>
-            <p>70 : 30</p>
-            <span style="font-size: 0.8rem">70% Investor | 30% Pengelola</span>
+            <i class="fas fa-file-code fa-2x" style="color:var(--primary); margin-bottom:15px;"></i>
+            <h3>Sewa Robot</h3>
+            <p style="font-size: 0.9rem; font-weight: normal; color: var(--text-muted);">
+                Miliki teknologi kami secara privat. Cocok untuk Anda yang ingin mandiri.
+            </p>
+            <ul style="text-align: left; font-size: 0.8rem; color: var(--text-muted); padding-top: 10px;">
+                <li><i class="fas fa-check text-primary"></i> Bayar lisensi lifetime</li>
+                <li><i class="fas fa-check text-primary"></i> 100% Profit milik Anda</li>
+                <li><i class="fas fa-check text-primary"></i> Support instalasi VPS</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <i class="fas fa-users-viewfinder fa-2x" style="color:var(--primary); margin-bottom:15px;"></i>
+            <h3>PAMM Account</h3>
+            <p style="font-size: 0.9rem; font-weight: normal; color: var(--text-muted);">
+                Investasi kolektif dengan manajemen profesional. Praktis dan efisien.
+            </p>
+            <ul style="text-align: left; font-size: 0.8rem; color: var(--text-muted); padding-top: 10px;">
+                <li><i class="fas fa-check text-primary"></i> Manajemen Pool Dana</li>
+                <li><i class="fas fa-check text-primary"></i> Pembagian profit otomatis</li>
+                <li><i class="fas fa-check text-primary"></i> Tanpa perlu sewa VPS</li>
+            </ul>
         </div>
     </div>
 </section>
+<div class="account-performance-widget">
+    <h4 style="margin-top:0; color:var(--primary); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; display: flex; justify-content: space-between;">
+        Account Live Performance
+        <span id="last-update" style="font-size: 0.6rem; color: var(--text-muted); text-transform: none;">Updating...</span>
+    </h4>
+    
+    <div class="perf-grid" id="perf-data">
+        <div class="perf-item">
+            <span class="perf-label">Balance</span>
+            <span class="perf-value" id="val-balance">Loading...</span>
+        </div>
+        <div class="perf-item">
+            <span class="perf-label">Equity</span>
+            <span class="perf-value" id="val-equity">Loading...</span>
+        </div>
+        <div class="perf-item">
+            <span class="perf-label">Win Rate</span>
+            <span class="perf-value text-success" id="val-winrate">Loading...</span>
+        </div>
+
+        <div class="perf-item">
+            <span class="perf-label">Total Profit</span>
+            <span class="perf-value text-success" id="val-profit">Loading...</span>
+        </div>
+        <div class="perf-item">
+            <span class="perf-label">Drawdown</span>
+            <span class="perf-value text-danger" id="val-dd">Loading...</span>
+        </div>
+        <div class="perf-item">
+            <span class="perf-label">Total Trade</span>
+            <span class="perf-value" id="val-trades">Loading...</span>
+        </div>
+    </div>
+    
+    <div style="font-size: 0.6rem; color: var(--text-muted); margin-top: 15px; display: flex; align-items: center; gap: 5px;">
+        <span class="status-indicator"></span> 
+        Data Strategi: <span id="strategy-name" style="color:white; font-weight:600;">-</span> 
+    </div>
+</div>
 
 <section>
     <div class="countdown-container">
@@ -305,7 +420,18 @@
 
 <script>
 let myChart;
-
+// Fungsi Aktifkan Tombol Registrasi
+function toggleRegButton() {
+    const checkbox = document.getElementById('agreeCheckbox');
+    const btn = document.getElementById('regButton');
+    if(checkbox.checked) {
+        btn.style.pointerEvents = "auto";
+        btn.style.opacity = "1";
+    } else {
+        btn.style.pointerEvents = "none";
+        btn.style.opacity = "0.5";
+    }
+}
 function generateSimulation() {
     const modal = parseFloat(document.getElementById('modalInput').value);
     if (!modal || modal <= 0) return alert("Input modal valid!");
