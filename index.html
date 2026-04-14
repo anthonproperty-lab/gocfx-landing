@@ -484,7 +484,39 @@ function generateSimulation() {
         }
     });
 }
+async function updatePerformance() {
+    const csvUrl = 'URL_CSV_ANDA'; 
 
+    try {
+        const response = await fetch(csvUrl);
+        const data = await response.text();
+        const rows = data.split('\n');
+        
+        // Mengambil data baris terakhir (data terbaru dari robot)
+        // Filter baris kosong jika ada
+        const cleanRows = rows.filter(row => row.trim() !== '');
+        const lastRow = cleanRows[cleanRows.length - 1];
+        const cols = lastRow.split(',');
+
+        // Mapping Data (Urutan: 0=Tanggal, 1=Nama, 2=Balance, 3=Equity, 4=Profit, 5=DD, 6=Trade, 7=WinRate)
+        document.getElementById('last-update').innerText = 'Update: ' + cols[0];
+        document.getElementById('strategy-name').innerText = cols[1];
+        document.getElementById('val-balance').innerText = '$' + Number(cols[2]).toLocaleString();
+        document.getElementById('val-equity').innerText = '$' + Number(cols[3]).toLocaleString();
+        document.getElementById('val-profit').innerText = '+' + cols[4] + '%';
+        document.getElementById('val-dd').innerText = cols[5] + '%';
+        document.getElementById('val-trades').innerText = cols[6];
+        document.getElementById('val-winrate').innerText = cols[7] + '%';
+
+    } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('perf-data').innerText = 'Failed to sync data';
+    }
+}
+
+updatePerformance();
+// Refresh otomatis tiap 5 menit
+setInterval(updatePerformance, 300000);
 // Popup Notif Logic
 const names = ["Andi dari Jakarta", "Siska dari Surabaya", "Budi dari Medan", "Rian dari Bali", "Dewi dari Bandung"];
 function showPopup() {
