@@ -504,9 +504,9 @@ async function updatePerformance() {
         document.getElementById('val-balance').innerText = '$' + Number(cols[2]).toLocaleString();
         document.getElementById('val-equity').innerText = '$' + Number(cols[3]).toLocaleString();
         document.getElementById('val-profit').innerText = '+' + cols[4] + '%';
-        document.getElementById('val-dd').innerText = cols[5] + '%';
+        document.getElementById('val-dd').innerText = cols[5];
         document.getElementById('val-trades').innerText = cols[6];
-        document.getElementById('val-winrate').innerText = cols[7] + '%';
+        document.getElementById('val-winrate').innerText = cols[7];
 
     } catch (error) {
         console.error('Error:', error);
@@ -516,7 +516,7 @@ async function updatePerformance() {
 
 updatePerformance();
 // Refresh otomatis tiap 5 menit
-setInterval(updatePerformance, 4000);
+setInterval(updatePerformance, 300000);
 // Popup Notif Logic
 const names = ["Andi dari Jakarta", "Siska dari Surabaya", "Budi dari Medan", "Rian dari Bali", "Dewi dari Bandung"];
 function showPopup() {
