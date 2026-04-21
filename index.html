@@ -511,21 +511,19 @@ function updatePerfGraph(historyData) {
 }
 
 
+let performanceHistory = [10.5, 11.2, 11.0, 12.5]; 
+
 async function updatePerformance() {
     const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRS672Q7ml5vHc_jpuOLloX3WQXYGgu7gpMgbdjEEHVimSFth5sAcllfXJN5E7zoke0WHec5uzxW0od/pub?gid=0&single=true&output=csv'; 
 
     try {
         const response = await fetch(csvUrl);
         const data = await response.text();
-        const rows = data.split('\n');
-        
-        // Mengambil data baris terakhir (data terbaru dari robot)
-        // Filter baris kosong jika ada
-        const cleanRows = rows.filter(row => row.trim() !== '');
-        const lastRow = cleanRows[cleanRows.length - 1];
+        const rows = data.split('\n').filter(row => row.trim() !== '');
+        const lastRow = rows[rows.length - 1];
         const cols = lastRow.split(',');
 
-        // Mapping Data (Urutan: 0=Tanggal, 1=Nama, 2=Balance, 3=Equity, 4=Profit, 5=DD, 6=Trade, 7=WinRate)
+        // 1. Update Teks Statistik (Seperti kode lama Anda)
         document.getElementById('last-update').innerText = 'Update: ' + cols[0];
         document.getElementById('strategy-name').innerText = cols[1];
         document.getElementById('val-balance').innerText = '$' + Number(cols[2]).toLocaleString();
@@ -535,12 +533,25 @@ async function updatePerformance() {
         document.getElementById('val-trades').innerText = cols[6];
         document.getElementById('val-winrate').innerText = cols[7] + '%';
 
+        // 2. Update Logika Grafik
+        // Ambil nilai profit saat ini (kolom ke-4)
+        const currentProfit = parseFloat(cols[4]);
+        
+        // Tambahkan ke riwayat jika data berubah
+        if (performanceHistory[performanceHistory.length - 1] !== currentProfit) {
+            performanceHistory.push(currentProfit);
+            
+            // Batasi riwayat hanya 10-15 data agar grafik tidak terlalu padat
+            if (performanceHistory.length > 15) performanceHistory.shift();
+        }
+
+        // 3. PANGGIL FUNGSI GRAFIK DI SINI
+        updatePerfGraph(performanceHistory);
+
     } catch (error) {
-        console.error('Error:', error);
-        document.getElementById('perf-data').innerText = 'Failed to sync data';
+        console.error('Error Syncing Data:', error);
     }
 }
-
 updatePerformance();
 // Refresh otomatis tiap 5 menit
 setInterval(updatePerformance, 4000);
