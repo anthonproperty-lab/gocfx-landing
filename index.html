@@ -51,46 +51,101 @@
         .logo-container { text-align: center; margin-bottom: 20px; }
         .logo-img { max-width: 180px; height: auto; filter: drop-shadow(0 0 10px rgba(34, 197, 94, 0.2)); }
 
-        /* Terms and Condition Styling */
-        .tc-container {
-            margin-top: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-        .tc-checkbox-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            cursor: pointer;
-        }
-        .tc-checkbox-wrapper input {
-            cursor: pointer;
-            accent-color: var(--primary);
-        }
-        .tc-link {
-            color: var(--primary);
-            text-decoration: underline;
-            cursor: pointer;
-        }
-        .tc-box {
-            display: none;
-            max-width: 500px;
-            background: rgba(15, 23, 42, 0.95);
-            border: 1px solid var(--primary);
-            padding: 20px;
-            border-radius: 12px;
-            font-size: 0.8rem;
-            text-align: left;
-            margin-top: 15px;
-            max-height: 200px;
-            overflow-y: auto;
-            color: var(--text-muted);
-        }
+       /* Terms and Condition Styling */
+.tc-container {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+}
 
+.tc-checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    color: var(--text-main); /* Mengubah ke main agar lebih terbaca */
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 10px 20px;
+    border-radius: 50px;
+    transition: 0.3s;
+}
+
+.tc-checkbox-wrapper:hover {
+    background: rgba(34, 197, 94, 0.1);
+}
+
+.tc-checkbox-wrapper input {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--primary);
+}
+
+.tc-link {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 1px dashed var(--primary);
+    margin-left: 4px;
+    transition: 0.3s;
+}
+
+.tc-link:hover {
+    color: #fff;
+    border-bottom-style: solid;
+}
+
+.tc-box {
+    display: none;
+    width: 100%;
+    max-width: 800px; /* Diperlebar agar teks pasal tidak terlalu berhimpit */
+    background: #0f172a; /* Warna solid agar teks putih mudah dibaca */
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    padding: 30px;
+    border-radius: 16px;
+    font-size: 0.9rem;
+    text-align: left;
+    margin-top: 10px;
+    max-height: 450px; /* Ditinggikan agar user tidak terlalu banyak scroll */
+    overflow-y: auto;
+    color: #cbd5e1;
+    line-height: 1.7;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    scrollbar-width: thin; /* Untuk Firefox */
+    scrollbar-color: var(--primary) transparent;
+}
+
+/* Kustomisasi Scrollbar untuk Chrome/Edge/Safari */
+.tc-box::-webkit-scrollbar {
+    width: 6px;
+}
+
+.tc-box::-webkit-scrollbar-thumb {
+    background-color: var(--primary);
+    border-radius: 10px;
+}
+
+/* Tambahan styling isi teks di dalam box */
+.tc-box h3 {
+    color: var(--primary);
+    font-size: 1rem;
+    margin: 20px 0 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tc-box ul {
+    padding-left: 18px;
+    margin-bottom: 15px;
+}
+
+.tc-box li {
+    margin-bottom: 8px;
+}
         /* Buttons */
         .btn-group { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
         .btn {
@@ -145,7 +200,155 @@
             .result-stats { grid-template-columns: 1fr; }
             .logo-img { max-width: 140px; }
         }
-    </style>
+/* Modal Styling */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(2, 6, 23, 0.9);
+    display: none; /* Sembunyi secara default */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(8px);
+}
+
+.modal-content {
+    background: #1e293b;
+    width: 90%;
+    max-width: 600px;
+    padding: 40px;
+    border-radius: 20px;
+    border: 1px solid var(--primary);
+    position: relative;
+    box-shadow: 0 0 30px rgba(34, 197, 94, 0.2);
+}
+
+.modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+
+.modal-content h3 { color: var(--primary); font-size: 1.8rem; margin-top: 0; }
+.modal-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.9rem; }
+.modal-table td { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.modal-table td:first-child { color: var(--text-muted); width: 40%; }
+.modal-table td:last-child { color: var(--text-main); font-weight: 600; }
+
+.btn-full { width: 100%; justify-content: center; margin-top: 20px; }
+
+/* Pointer cursor untuk kartu agar user tahu bisa diklik */
+.card { cursor: pointer; }
+
+/* Breadcrumb & Navigation */
+.breadcrumb { margin-bottom: 20px; color: var(--primary); cursor: pointer; display: none; }
+.breadcrumb i { margin-right: 8px; }
+
+/* Sub-selection Grid */
+.sub-grid { display: none; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+
+/* Detail Description Styling */
+.detail-box { 
+    display: none; 
+    background: var(--card-bg); 
+    padding: 30px; 
+    border-radius: 20px; 
+    border: 1px solid var(--primary);
+    margin-top: 20px;
+}
+
+.account-performance-widget {
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9));
+    border: 1px solid rgba(34, 197, 94, 0.2);
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Indikator Live Berkedip */
+.status-indicator {
+    width: 8px;
+    height: 8px;
+    background: #22c55e;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 8px;
+    box-shadow: 0 0 10px #22c55e;
+    animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.3; }
+    100% { opacity: 1; }
+}
+
+.perf-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.perf-item {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: transform 0.3s ease;
+}
+
+.perf-item:hover {
+    transform: translateY(-3px);
+    background: rgba(34, 197, 94, 0.05);
+}
+
+.perf-label {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.perf-value {
+    font-family: 'Monaco', 'Consolas', monospace; /* Font angka biar rapi */
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+/* Warna khusus untuk angka positif/negatif */
+.text-success { color: #22c55e; }
+.text-danger { color: #ef4444; }
+
+/* Styling Efek Cap Stempel */
+.badge-stempel {
+    display: inline-block;
+    padding: 2px 10px;
+    border: 2px solid #ef4444; /* Warna merah mencolok */
+    color: #ef4444;
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    border-radius: 4px;
+    transform: rotate(-5deg); /* Membuat sedikit miring */
+    margin-left: 10px;
+    box-shadow: 0 0 5px rgba(239, 68, 68, 0.3);
+    background: rgba(239, 68, 68, 0.1);
+    border-style: double; /* Memberikan kesan stempel lama */
+    vertical-align: middle;
+}
+
+</style>
 </head>
 <body>
 
@@ -167,53 +370,70 @@
         </a>
     </div>
 
-    <div class="tc-container">
-        <label class="tc-checkbox-wrapper">
-            <input type="checkbox" id="agreeCheckbox" onchange="toggleRegButton()">
-            Saya setuju dengan <span class="tc-link" onclick="toggleTCBox(event)">Syarat & Ketentuan</span>
-        </label>
-        
-        <div id="tcBox" class="tc-box">
-            <strong>Syarat & Ketentuan GOCFX:</strong><br><br>
-            <strong>1. Ketentuan Umum</strong><br>
-        1.1. Layanan ini merupakan penyediaan teknologi algoritma trading (Expert Advisor) untuk aktivitas trading forex.<br>
-        1.2. Pengelola tidak memberikan jaminan keuntungan (fixed profit) dalam bentuk atau persentase apa pun.<br>
-        1.3. Seluruh keputusan untuk mengikuti sinyal atau copytrade dan layanan lainnya berada di tangan investor sepenuhnya.<br><br>
+ <div class="tc-container">
+    <label class="tc-checkbox-wrapper" style="cursor:pointer;">
+        <input type="checkbox" id="agreeCheckbox" onchange="toggleRegButton()">
+        Saya setuju dengan <span class="tc-link" onclick="toggleTCBox(event)">Syarat & Ketentuan</span>
+    </label>
+    
+    <div id="tcBox" class="tc-box"> 
+        <div style="text-align: center; margin-bottom: 20px;">
+            <strong style="font-size: 1.2rem; color: var(--primary);">PERJANJIAN LAYANAN TRADING SYSTEM</strong><br>
+            <small>(ICDEX - GOCFX)</small>
+        </div>
 
-        <strong>2. Risiko Investasi & Tanggung Jawab Modal</strong><br>
-        2.1. Investor menyadari bahwa pasar finansial bersifat volatil. Seluruh aktivitas trading memiliki potensi kerugian sebagian hingga seluruh modal (Loss of Capital).<br>
-        2.2. Tidak ada skema kompensasi, ganti rugi, atau pengembalian modal atas kerugian yang terjadi akibat aktivitas trading.<br>
-        2.3. Modal yang digunakan harus merupakan "dana dingin" (risk capital).<br><br>
+        <p>Perjanjian ini dibuat dan disepakati antara <strong>ICDEX</strong> (Penyedia) dan <strong>Investor</strong> (Pelanggan). Dengan melakukan pembayaran biaya setup atau menghubungkan akun, Investor menyatakan setuju pada ketentuan berikut:</p>
 
-        <strong>3. Kebijakan Transaksi & Kurs</strong><br>
-        3.1. Ditetapkan kurs internal tetap (Fix Rate) sebesar 1 USD = Rp10.000 untuk seluruh transaksi deposit dan penarikan (withdrawal).<br>
-        3.2. Selisih antara kurs pasar dan kurs tetap merupakan bagian dari kebijakan administrasi layanan.<br><br>
+        <h3>Pasal 1: Model Layanan & Biaya</h3>
+        <ul>
+            <li><strong>Sewa Robot (Private):</strong> Biaya setup <strong>Rp 3.000.000,-</strong> di awal. Bersifat <em>non-refundable</em> untuk 1 nomor akun.</li>
+            <li><strong>Copy Trading:</strong> Mengikuti Master Account. Biaya sesuai kebijakan platform copy trade.</li>
+            <li><strong>PAMM Account:</strong> Penempatan dana ke Pool Fund. Berlaku <em>Lock Period</em> 30 hari kalender.</li>
+        </ul>
 
-        <strong>4. Skema Bagi Hasil (Profit Sharing)</strong><br>
-        4.1. Rasio: Pembagian keuntungan ditetapkan dengan rasio 70% untuk Investor dan 30% untuk Pengelola.<br>
-        4.2. High Water Mark: Tagihan hanya berlaku jika saldo melampaui titik tertinggi sebelumnya.<br>
-        4.3. Jadwal: Bagi hasil ditagihkan setiap akhir pekan atau saat withdrawal.<br><br>
+        <h3>Pasal 2: Akses Akun & Privasi</h3>
+        <ul>
+            <li><strong>Data Login:</strong> Khusus Sewa Robot, wajib menyediakan Nomor Login, Password Master, dan Server.</li>
+            <li><strong>Monitoring:</strong> Untuk Copy Trading & PAMM, cukup menyediakan Investor Password.</li>
+            <li><strong>Kerahasiaan:</strong> Penyedia menjamin keamanan data hanya untuk operasional sistem GOCFX.</li>
+        </ul>
 
-        <strong>5. Mekanisme Layanan</strong><br>
-        5.1. Copy Trading: Akun otomatis menyalin transaksi master. Kontrol penuh di investor.<br>
-        5.2. Sewa Robot: Pembayaran lisensi di depan. Investor bertanggung jawab atas VPS.<br>
-        5.3. PAMM Account: Dana digabungkan dalam satu pool besar dikelola Money Manager.<br><br>
+        <h3>Pasal 3: Sistem Bagi Hasil (Profit Sharing)</h3>
+        <ul>
+            <li><strong>Proporsi:</strong> Pembagian keuntungan <strong>30% Penyedia : 70% Investor</strong>.</li>
+            <li><strong>Mekanisme Sewa Robot:</strong> Wajib transfer bagi hasil maksimal <strong>24 jam</strong> setelah WD.</li>
+            <li><strong>Sanksi:</strong> Keterlambatan pembayaran bagi hasil mengakibatkan pemutusan koneksi robot secara sepihak.</li>
+        </ul>
 
-        <strong>6. Aturan Khusus Deposit & Penarikan</strong><br>
-        6.1. Copy Trading: WD bebas, wajib sedia dana profit sharing.<br>
-        6.2. Sewa Robot: Pembayaran lisensi ke BCA 5965086037 a.n. Anton Sugiarto.<br>
-        6.3. PAMM Account: Masa Lock Period 30 hari. Penarikan sebelum masa lock dikenakan penalti 5%.<br><br>
+        <h3>Pasal 4: Kebijakan Garansi Kompensasi 70%</h3>
+        <p>Penyedia memberikan kompensasi 70% dari Modal Bersih (Net Deposit) jika terjadi Margin Call (MC) dengan syarat:</p>
+        <ul>
+            <li>Hanya berlaku untuk tipe <strong>CONSERVATIVE</strong> dan <strong>MODERATE</strong>.</li>
+            <li>Tipe <strong>AGGRESSIVE</strong> tidak masuk dalam cakupan garansi.</li>
+            <li>Perhitungan: (Total Deposit - Total Withdrawal).</li>
+        </ul>
 
-        <strong>7. Kondisi Market & Teknis</strong><br>
-        7.1. Pengelola tidak bertanggung jawab atas: Slippage, pelebaran spread, gangguan internet/VPS, atau kegagalan sistem broker.<br><br>
+        <h3>Pasal 5: Pembatalan Garansi</h3>
+        <p>Hak kompensasi <strong>BATAL</strong> secara otomatis apabila ditemukan:</p>
+        <ul>
+            <li><strong>Intervensi Manual:</strong> Buka/tutup posisi atau ubah SL/TP tanpa koordinasi.</li>
+            <li><strong>Modifikasi:</strong> Mengubah parameter lot atau mengganti nomor akun tanpa izin.</li>
+            <li><strong>Aktivitas Campuran:</strong> Menggunakan robot lain atau trading manual di akun yang sama.</li>
+            <li><strong>Pelanggaran Margin:</strong> Penarikan dana (WD) saat posisi <em>floating</em>.</li>
+        </ul>
 
-        <strong>8. Hak Intervensi</strong><br>
-        8.1. Investor berhak menghentikan layanan kapan saja sesuai prosedur broker.<br><br>
+        <h3>Pasal 6: Disclaimer</h3>
+        <ul>
+            <li>Penyedia tidak bertanggung jawab atas kendala teknis broker (Slippage, Spread melar, Server Down).</li>
+            <li>Penyedia tidak bertanggung jawab atas kondisi <em>Force Majeure</em> pasar global.</li>
+        </ul>
 
-        <strong>9. Penegasan Persetujuan</strong><br>
-        Forex berisiko tinggi, kerugian modal adalah tanggung jawab investor sepenuhnya.
+        <div style="background: rgba(34, 197, 94, 0.1); padding: 15px; border-radius: 8px; margin-top: 20px; border: 1px dashed var(--primary);">
+            <strong>Persetujuan:</strong><br>
+            Dengan mendaftar, membayar biaya setup, atau menghubungkan akun, Investor dianggap telah membaca, memahami, dan menyetujui seluruh ketentuan ini tanpa paksaan.
         </div>
     </div>
+</div>
 </header>
 <section>
     <h2>Simulasi Profit (GOCFX-MO)</h2>
@@ -240,101 +460,123 @@
     </div>
 </section>
 
-<section>
-  <h2>Pilihan Robot Trading</h2>
-  <div class="grid">
-    <div class="card">
-      <i class="fas fa-chart-line fa-2x" style="color:var(--primary)"></i>
-      <h3>GOCFX-CO</h3>
-      <p>10% – 20% / bln</p>
-      <ul style="text-align: left; font-size: 0.85rem; color: var(--text-muted); padding-left: 15px;">
-        <li>Fokus pada Capital Preservation</li>
-        <li>Drawdown sangat rendah (< 5%)</li>
-        <li>Cocok untuk modal besar/institusi</li>
-        <li>Strategi: Trend Following Konservatif</li>
-      </ul>
+<section id="product-section">
+    <h2 id="section-title">Pilih Instrumen Trading</h2>
+    
+    <div id="back-btn" class="breadcrumb" onclick="resetNavigation()">
+        <i class="fas fa-arrow-left"></i> Kembali ke Pilih Instrumen
     </div>
 
-    <div class="card">
-      <i class="fas fa-chart-line fa-2x" style="color:var(--primary)"></i>
-      <h3>GOCFX-MO</h3>
-      <p>30% – 50% / bln</p>
-      <ul style="text-align: left; font-size: 0.85rem; color: var(--text-muted); padding-left: 15px;">
-        <li>Keseimbangan Profit & Risiko</li>
-        <li>Drawdown moderat (10-15%)</li>
-        <li>Target harian 1.5% - 2%</li>
-        <li>Strategi: Multi-Indikator Scalping</li>
-      </ul>
+    <div id="level-instrumen" class="grid">
+        <div class="card" onclick="selectInstrumen('currency')">
+            <i class="fas fa-dollar-sign fa-2x" style="color:var(--primary)"></i>
+            <h3>GOCFX-Currency</h3>
+            <p>Trading mata uang mayor (EUR, GBP, JPY).</p>
+        </div>
+        <div class="card" onclick="selectInstrumen('gold')">
+            <i class="fas fa-coins fa-2x" style="color:var(--primary)"></i>
+            <h3>GOCFX-Gold</h3>
+            <p>Eksploitasi volatilitas tinggi pada XAUUSD.</p>
+        </div>
+        <div class="card" onclick="selectInstrumen('crypto')">
+            <i class="fas fa-bitcoin-sign fa-2x" style="color:var(--primary)"></i>
+            <h3>GOCFX-Crypto</h3>
+            <p>Market 24/7 untuk aset digital Bitcoin & ETH.</p>
+        </div>
+        <div class="card" onclick="selectInstrumen('oil')">
+            <i class="fas fa-oil-can fa-2x" style="color:var(--primary)"></i>
+            <h3>GOCFX-Oil</h3>
+            <p>Trading komoditas energi (WTI/Crude Oil).</p>
+        </div>
     </div>
 
-    <div class="card">
-      <i class="fas fa-fire fa-2x" style="color:var(--primary)"></i>
-      <h3>GOCFX-AG</h3>
-      <p>50%+ / bln</p>
-      <ul style="text-align: left; font-size: 0.85rem; color: var(--text-muted); padding-left: 15px;">
-        <li>Maksimalisasi Profit (High Gain)</li>
-        <li>Risk management agresif</li>
-        <li>Cocok untuk compounding cepat</li>
-        <li>Strategi: Martingale Aman & Hedging</li>
-      </ul>
+    <div id="level-tipe" class="sub-grid">
+        <div class="card" onclick="selectTipe('con')">
+            <i class="fas fa-chart-line fa-2x" style="color:var(--primary)"></i>
+            <h3>Conservative</h3>
+            <p>Fokus keamanan modal & pertumbuhan stabil.</p>
+        </div>
+        <div class="card" onclick="selectTipe('mod')">
+            <i class="fas fa-balance-scale fa-2x" style="color:var(--primary)"></i>
+            <h3>Moderate</h3>
+            <p>Keseimbangan profit & risiko terkontrol.</p>
+        </div>
+        <div class="card" onclick="selectTipe('agg')">
+            <i class="fas fa-bolt fa-2x" style="color:var(--primary)"></i>
+            <h3>Aggressive</h3>
+            <p>Target profit maksimal tanpa batas SL/TP.</p>
+        </div>
     </div>
 
-    <div class="card">
-      <i class="fas fa-coins fa-2x" style="color:var(--primary)"></i>
-      <h3>GOCFX-CR</h3>
-      <p>30%+ / bln</p>
-      <ul style="text-align: left; font-size: 0.85rem; color: var(--text-muted); padding-left: 15px;">
-        <li>Khusus Market Crypto (BTC/ETH)</li>
-        <li>Beroperasi 24/7 tanpa henti</li>
-        <li>Kebal terhadap volatilitas tinggi</li>
-        <li>Strategi: Arbitrase & Micro-Trend</li>
-      </ul>
+    <div id="level-detail" class="detail-box">
+        <h3 id="det-title" style="color:var(--primary)">-</h3>
+        <p id="det-desc" style="color:var(--text-muted)">-</p>
+        <table class="modal-table">
+            <tr><td>Minimal Deposit</td><td id="det-depo">-</td></tr>
+            <tr><td>Teknik Trading</td><td id="det-tech">-</td></tr>
+            <tr><td>Estimasi Profit</td><td id="det-profit">-</td></tr>
+        </table>
+        <button onclick="goToAgreement()" class="btn btn-primary btn-full">
+            Lanjut ke Syarat & Perjanjian <i class="fas fa-chevron-right"></i>
+        </button>
     </div>
-  </div>
 </section>
-<section>
-    <h2>Model Kerjasama</h2>
-    <div class="grid">
-        <div class="card">
+<div id="productModal" class="modal-overlay" onclick="closeProduct(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <span class="modal-close" onclick="closeProduct(event)">&times;</span>
+        <h3 id="m-title">Nama Produk</h3>
+        <p id="m-desc" style="color: var(--text-muted); font-size: 0.9rem;"></p>
+        
+        <table class="modal-table">
+            <tr><td>Min. Deposit</td><td id="m-depo">-</td></tr>
+            <tr><td>Timeframe</td><td id="m-tf">-</td></tr>
+            <tr><td>Strategi</td><td id="m-strat">-</td></tr>
+            <tr><td>Manajemen Risiko</td><td id="m-risk">-</td></tr>
+        </table>
+
+        <a id="m-link" href="#" class="btn btn-primary btn-full">
+            <i class="fas fa-edit"></i> Pilih Robot & Registrasi
+        </a>
+    </div>
+</div>
+<section id="cooperation-section">
+    <h2 id="coop-title">Model Kerjasama</h2>
+    
+    <div id="coop-back-btn" class="breadcrumb" onclick="resetCoopNavigation()">
+        <i class="fas fa-arrow-left"></i> Kembali ke Pilih Model
+    </div>
+
+    <div id="level-coop" class="grid">
+        <div class="card" onclick="selectCoop('copy')">
             <i class="fas fa-copy fa-2x" style="color:var(--primary); margin-bottom:15px;"></i>
             <h3>Copy Trading</h3>
-            <p style="font-size: 0.9rem; font-weight: normal; color: var(--text-muted);">
-                Kontrol penuh di tangan Anda. Akun Anda otomatis mengikuti transaksi master kami.
-            </p>
-            <ul style="text-align: left; font-size: 0.8rem; color: var(--text-muted); padding-top: 10px;">
-                <li><i class="fas fa-check text-primary"></i> Dana di akun sendiri</li>
-                <li><i class="fas fa-check text-primary"></i> Bebas WD kapan saja</li>
-                <li><i class="fas fa-check text-primary"></i> Profit Sharing 70:30</li>
-            </ul>
+            <p>Kontrol penuh di tangan Anda. Akun otomatis mengikuti transaksi master.</p>
         </div>
 
-        <div class="card">
+        <div class="card" onclick="selectCoop('sewa')">
             <i class="fas fa-file-code fa-2x" style="color:var(--primary); margin-bottom:15px;"></i>
             <h3>Sewa Robot</h3>
-            <p style="font-size: 0.9rem; font-weight: normal; color: var(--text-muted);">
-                Miliki teknologi kami secara privat. Cocok untuk Anda yang ingin mandiri.
-            </p>
-            <ul style="text-align: left; font-size: 0.8rem; color: var(--text-muted); padding-top: 10px;">
-                <li><i class="fas fa-check text-primary"></i> Bayar lisensi lifetime</li>
-                <li><i class="fas fa-check text-primary"></i> 100% Profit milik Anda</li>
-                <li><i class="fas fa-check text-primary"></i> Support instalasi/setting VPS</li>
-            </ul>
+            <p>Miliki teknologi kami secara privat. Cocok untuk Anda yang ingin mandiri.</p>
         </div>
 
-        <div class="card">
+        <div class="card" onclick="selectCoop('pamm')">
             <i class="fas fa-chart-line fa-2x" style="color:var(--primary); margin-bottom:15px;"></i>
             <h3>PAMM Account</h3>
-            <p style="font-size: 0.9rem; font-weight: normal; color: var(--text-muted);">
-                Investasi kolektif dengan manajemen profesional. Praktis dan efisien.
-            </p>
-            <ul style="text-align: left; font-size: 0.8rem; color: var(--text-muted); padding-top: 10px;">
-                <li><i class="fas fa-check text-primary"></i> Manajemen Pool Dana</li>
-                <li><i class="fas fa-check text-primary"></i> Pembagian profit otomatis</li>
-                <li><i class="fas fa-check text-primary"></i> Tanpa perlu sewa VPS</li>
-            </ul>
+            <p>Investasi kolektif dengan manajemen profesional. Praktis dan efisien.</p>
         </div>
     </div>
+
+    <div id="coop-detail" class="detail-box">
+        <h3 id="cd-title" style="color:var(--primary); margin-top:0;">-</h3>
+        <p id="cd-desc" style="color:var(--text-muted)">-</p>
+        <ul id="cd-list" style="text-align: left; color: var(--text-muted); margin-bottom: 25px;">
+            </ul>
+        <button onclick="goToAgreement()" class="btn btn-primary btn-full">
+            Pilih Model Ini & Lanjut <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
 </section>
+
 <div class="account-performance-widget">
     <h4 style="margin-top:0; color:var(--primary); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; display: flex; justify-content: space-between; align-items: center;">
         GOCFX-MO Live Performance
@@ -472,44 +714,268 @@ function generateSimulation() {
     });
 }
 
+const productData = {
+    'CO': {
+        title: 'GOCFX-CO (Conservative)',
+        desc: 'Robot dengan fokus utama pada perlindungan modal. Sangat stabil untuk penggunaan jangka panjang dan akun institusi.',
+        depo: '$500 - $100,000',
+        tf: 'H1 (Hourly)',
+        strat: 'Trend Following Konservatif',
+        risk: 'Strict Stop Loss & Take Profit',
+        link: 'https://docs.google.com/forms/d/e/1FAIpQLSffru2cQiAw83FyrDWUgig1XJ-u4L0uAjRt9EmhQZ23IYoglw/viewform?entry.123=CO'
+    },
+    'MO': {
+        title: 'GOCFX-MO (Moderate)',
+        desc: 'Keseimbangan terbaik antara profit harian dan keamanan. Strategi paling populer bagi trader retail.',
+        depo: '$1,000 - $100,000',
+        tf: 'M15 / M30',
+        strat: 'Multi-Indikator Scalping & Grid',
+        risk: 'Take Profit Only (Partial SL)',
+        link: 'https://docs.google.com/forms/d/e/1FAIpQLSffru2cQiAw83FyrDWUgig1XJ-u4L0uAjRt9EmhQZ23IYoglw/viewform?entry.123=MO'
+    },
+    'AG': {
+        title: 'GOCFX-AG (Aggressive)',
+        desc: 'Maksimalisasi keuntungan dalam waktu singkat. Disarankan hanya menggunakan dana dingin.',
+        depo: '$1,000 - $10,000 (Atau Akun Cent)',
+        tf: 'M1 / M5',
+        strat: 'Martingale Aman & Hedging',
+        risk: 'No SL / No TP (High Intensity)',
+        link: 'https://docs.google.com/forms/d/e/1FAIpQLSffru2cQiAw83FyrDWUgig1XJ-u4L0uAjRt9EmhQZ23IYoglw/viewform?entry.123=AG'
+    },
+    'CR': {
+        title: 'GOCFX-CR (Crypto)',
+        desc: 'Didesain khusus untuk market Bitcoin dan Ethereum yang beroperasi 24/7.',
+        depo: '$1,000 - $100,000',
+        tf: 'H1 / H4',
+        strat: 'Arbitrase & Micro-Trend',
+        risk: 'Dynamic TP & SL',
+        link: 'https://docs.google.com/forms/d/e/1FAIpQLSffru2cQiAw83FyrDWUgig1XJ-u4L0uAjRt9EmhQZ23IYoglw/viewform?entry.123=CR'
+    }
+};
+
+function openProduct(code) {
+    const data = productData[code];
+    document.getElementById('m-title').innerText = data.title;
+    document.getElementById('m-desc').innerText = data.desc;
+    document.getElementById('m-depo').innerText = data.depo;
+    document.getElementById('m-tf').innerText = data.tf;
+    document.getElementById('m-strat').innerText = data.strat;
+    document.getElementById('m-risk').innerText = data.risk;
+    document.getElementById('m-link').href = data.link;
+
+    document.getElementById('productModal').style.display = 'flex';
+}
+
+function closeProduct(event) {
+    document.getElementById('productModal').style.display = 'none';
+}
+
+// Tambahkan fungsi untuk animasi angka agar terlihat "live"
+function animateValue(id, start, end, duration, prefix = "", suffix = "") {
+    const obj = document.getElementById(id);
+    if (start === end) return;
+    const range = end - start;
+    let current = start;
+    const increment = end > start ? 1 : -1;
+    const stepTime = Math.abs(Math.floor(duration / range));
+    
+    const timer = setInterval(() => {
+        current += (range / 10); // Percepat transisi
+        if ((increment === 1 && current >= end) || (increment === -1 && current <= end)) {
+            obj.innerText = prefix + end.toLocaleString() + suffix;
+            clearInterval(timer);
+        } else {
+            obj.innerText = prefix + Math.floor(current).toLocaleString() + suffix;
+        }
+    }, 50);
+}
+
+// Update Fungsi Grafik dengan Gradient
 function updatePerfGraph(historyData) {
     const ctx = document.getElementById('perfChart').getContext('2d');
     
-    // Jika grafik sudah ada, hancurkan dulu sebelum buat baru
+    // Buat Gradient untuk Background
+    const gradient = ctx.createLinearGradient(0, 0, 0, 120);
+    gradient.addColorStop(0, 'rgba(34, 197, 94, 0.4)');
+    gradient.addColorStop(1, 'rgba(34, 197, 94, 0)');
+
     if (perfChart) perfChart.destroy();
 
-    // Simulasi label (misal data 7 poin terakhir)
-    const labels = historyData.map((_, i) => i); 
-    
     perfChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: labels,
+            labels: historyData.map((_, i) => i),
             datasets: [{
                 data: historyData,
                 borderColor: '#22c55e',
-                borderWidth: 2,
-                pointRadius: 0,
+                borderWidth: 3,
+                pointRadius: 4,
+                pointBackgroundColor: '#22c55e',
+                pointBorderColor: '#020617',
+                pointBorderWidth: 2,
                 fill: true,
-                backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                backgroundColor: gradient,
                 tension: 0.4
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            animation: { duration: 1000 },
             plugins: { legend: { display: false } },
             scales: {
                 x: { display: false },
-                y: { 
-                    display: false,
-                    grid: { display: false }
-                }
+                y: { display: false }
             }
         }
     });
 }
+let selectedInstrumen = '';
+let selectedTipe = '';
 
+const productHierarchy = {
+    'currency': {
+        'con': { title: 'Currency Conservative', desc: 'Fokus pada perlindungan modal di pair mayor (EUR/GBP). Drawdown terjaga di bawah 5%.', depo: '$10,000', tech: 'Trend Following', profit: '5-10%/bln' },
+       'mod': { 
+    title: 'Currency Moderate <span class="badge-stempel">Populer & Bergaransi!</span>', 
+    desc: 'Kombinasi Grid dan Korelasi antar pair mayor untuk profit harian yang stabil.', 
+    depo: '$3,000', 
+    tech: 'Grid & Correlation', 
+    profit: '10-50%/bln' 
+},
+        'agg': { title: 'Currency Aggressive', desc: 'Strategi Martingale agresif pada pair dengan volatilitas tinggi untuk pertumbuhan cepat.', depo: '$1,000', tech: 'Averaging/Martingale', profit: '30%++/bln' }
+    },
+    'gold': {
+        'con': { title: 'Gold Conservative', desc: 'Analisa Price Action Gold pada timeframe H1. Mengutamakan kualitas setup dibanding kuantitas.', depo: '$100,000', tech: 'Price Action H1', profit: '5-20%/bln' },
+        'mod': { title: 'Gold Moderate', desc: 'Scalping intraday pada market Gold dengan target profit harian 1-2%.', depo: '$5,000', tech: 'Intraday Scalping', profit: '15-30%/bln' },
+        'agg': { title: 'Gold Aggressive', desc: 'High Frequency trading pada Gold tanpa batasan SL/TP untuk memaksimalkan setiap pergerakan.', depo: '$3,000', tech: 'HF Scalping', profit: '40%++/bln' }
+    },
+    'crypto': {
+        'con': { title: 'Crypto Conservative', desc: 'Eksploitasi tren jangka panjang BTC/ETH. Berjalan 24/7 dengan pengaman ketat.', depo: '$100,000', tech: 'Swing Trading', profit: '4-8%/bln' },
+        'mod': { title: 'Crypto Moderate', desc: 'Memanfaatkan volatilitas harian aset kripto dengan sistem Dynamic TP.', depo: '$30,000', tech: 'Volatility Breakout', profit: '12-18%/bln' },
+        'agg': { title: 'Crypto Aggressive', desc: 'Full-power trading pada altcoin dan BTC. Tanpa SL untuk menghadapi koreksi tajam kripto.', depo: '$10,000', tech: 'Micro-Trend Riding', profit: '30%++/bln' }
+    },
+    'oil': {
+        'con': { title: 'Oil Conservative', desc: 'Trading komoditas energi (WTI) dengan fokus pada siklus supply-demand harian.', depo: '$100,000', tech: 'Cycle Trading', profit: '4-7%/bln' },
+        'mod': { title: 'Oil Moderate', desc: 'Memanfaatkan korelasi harga minyak dengan tren global. Fokus pada breakout intraday.', depo: '$30,000', tech: 'Breakout System', profit: '10-15%/bln' },
+        'agg': { title: 'Oil Aggressive', desc: 'Eksploitasi penuh saat rilis data cadangan minyak (Inventory data) tanpa batasan SL.', depo: '$10,000', tech: 'Event-Driven Aggressive', profit: '25%++/bln' }
+    }
+};
+
+function selectInstrumen(ins) {
+    selectedInstrumen = ins;
+    document.getElementById('level-instrumen').style.display = 'none';
+    document.getElementById('level-tipe').style.display = 'grid';
+    document.getElementById('back-btn').style.display = 'block';
+    document.getElementById('section-title').innerText = 'Pilih Tipe Risiko GOCFX-' + ins.toUpperCase();
+}
+
+function selectTipe(tipe) {
+    selectedTipe = tipe;
+    const data = productHierarchy[selectedInstrumen][tipe];
+    
+    document.getElementById('level-tipe').style.display = 'none';
+    document.getElementById('level-detail').style.display = 'block';
+    
+    document.getElementById('det-title').innerHTML = data.title;
+    document.getElementById('det-desc').innerText = data.desc;
+    document.getElementById('det-depo').innerText = data.depo;
+    document.getElementById('det-tech').innerText = data.tech;
+    document.getElementById('det-profit').innerText = data.profit;
+    document.getElementById('section-title').innerText = 'Deskripsi Produk';
+}
+
+function resetNavigation() {
+    document.getElementById('level-instrumen').style.display = 'grid';
+    document.getElementById('level-tipe').style.display = 'none';
+    document.getElementById('level-detail').style.display = 'none';
+    document.getElementById('back-btn').style.display = 'none';
+    document.getElementById('section-title').innerText = 'Pilih Instrumen Trading';
+}
+
+function goToAgreement() {
+    // 1. Scroll ke arah T&C di bagian atas secara halus
+    const headerElement = document.querySelector('header');
+    headerElement.scrollIntoView({ behavior: 'smooth' });
+
+    // 2. Tampilkan Box T&C
+    const tcBox = document.getElementById('tcBox');
+    tcBox.style.display = 'block';
+    
+    // 3. Beri sedikit highlight warna border agar user fokus
+    tcBox.style.borderColor = '#22c55e';
+    tcBox.style.boxShadow = '0 0 20px rgba(34, 197, 94, 0.4)';
+
+    // 4. Notifikasi instruksi
+    const popup = document.getElementById('popupNotif');
+    const text = document.getElementById('popupText');
+    text.innerText = "Silahkan baca & centang perjanjian untuk membuka form registrasi.";
+    popup.classList.add('active');
+    setTimeout(() => popup.classList.remove('active'), 5000);
+}
+
+// Data untuk Hierarki Model Kerjasama
+const coopData = {
+    'copy': {
+        title: 'Model Copy Trading',
+        desc: 'Sistem dimana akun trading Anda disinkronisasikan secara otomatis dengan Master Account GOCFX. Anda tidak perlu menyewa VPS atau menginstall software.',
+        features: [
+            'Dana tetap berada di akun broker pribadi Anda.',
+            'Bebas melakukan Penarikan Dana (WD) kapan saja.',
+            'Profit Sharing 70% Investor : 30% GOCFX.',
+            'Transparansi penuh melalui aplikasi MetaTrader.'
+        ]
+    },
+    'sewa': {
+        title: 'Model Sewa Robot (Private)',
+        desc: 'Anda mendapatkan file Expert Advisor (EA) GOCFX secara eksklusif untuk dipasang di akun pribadi Anda dengan kontrol parameter mandiri.',
+        features: [
+            'Biaya Setup/Lisensi Rp 3.000.000,- (Sekali bayar).',
+            '100% Keuntungan milik Anda (Tanpa bagi hasil harian).',
+            'Wajib menggunakan VPS yang stabil.',
+            'Mendapatkan update algoritma secara berkala.'
+        ]
+    },
+    'pamm': {
+        title: 'Model PAMM Account',
+        desc: 'Investasi bersama dalam satu Pool Fund yang dikelola oleh Money Manager profesional kami. Ideal untuk investor yang tidak ingin repot mengurus akun.',
+        features: [
+            'Manajemen dana kolektif yang lebih efisien.',
+            'Pembagian keuntungan otomatis oleh sistem broker.',
+            'Tanpa biaya sewa robot atau biaya setup.',
+            'Berlaku Lock Period sesuai ketentuan broker.'
+        ]
+    }
+};
+
+function selectCoop(key) {
+    const data = coopData[key];
+    document.getElementById('level-coop').style.display = 'none';
+    document.getElementById('coop-detail').style.display = 'block';
+    document.getElementById('coop-back-btn').style.display = 'block';
+    
+    document.getElementById('cd-title').innerText = data.title;
+    document.getElementById('cd-desc').innerText = data.desc;
+    
+    // Generate List Keuntungan
+    const listContainer = document.getElementById('cd-list');
+    listContainer.innerHTML = ''; // Reset list
+    data.features.forEach(feat => {
+        const li = document.createElement('li');
+        li.innerHTML = `<i class="fas fa-check" style="color:var(--primary); margin-right:10px;"></i> ${feat}`;
+        li.style.marginBottom = "10px";
+        listContainer.appendChild(li);
+    });
+
+    document.getElementById('coop-title').innerText = 'Detail Kerjasama';
+}
+
+function resetCoopNavigation() {
+    document.getElementById('level-coop').style.display = 'grid';
+    document.getElementById('coop-detail').style.display = 'none';
+    document.getElementById('coop-back-btn').style.display = 'none';
+    document.getElementById('coop-title').innerText = 'Model Kerjasama';
+}
 
 let performanceHistory = [10.5, 11.2, 11.0, 12.5]; 
 
@@ -520,11 +986,13 @@ async function updatePerformance() {
         const response = await fetch(csvUrl);
         const data = await response.text();
         const rows = data.split('\n').filter(row => row.trim() !== '');
-        const lastRow = rows[rows.length - 1];
-        const cols = lastRow.split(',');
+        
+        if (rows.length < 1) return; // Proteksi jika data kosong
 
-        // 1. Update Teks Statistik (Seperti kode lama Anda)
-        document.getElementById('last-update').innerText = 'Update: ' + cols[0];
+        const cols = rows[rows.length - 1].split(',');
+
+        // 1. Update Teks Statistik
+        document.getElementById('last-update').innerHTML = `<span class="status-indicator"></span> LIVE: ${cols[0]}`;
         document.getElementById('strategy-name').innerText = cols[1];
         document.getElementById('val-balance').innerText = '$' + Number(cols[2]).toLocaleString();
         document.getElementById('val-equity').innerText = '$' + Number(cols[3]).toLocaleString();
@@ -533,28 +1001,32 @@ async function updatePerformance() {
         document.getElementById('val-trades').innerText = cols[6];
         document.getElementById('val-winrate').innerText = cols[7] + '%';
 
-        // 2. Update Logika Grafik
-        // Ambil nilai profit saat ini (kolom ke-4)
         const currentProfit = parseFloat(cols[4]);
-        
-        // Tambahkan ke riwayat jika data berubah
+
+        // 2. Logika Update Riwayat & Grafik
+        // Cek jika data berbeda dengan data terakhir di array
         if (performanceHistory[performanceHistory.length - 1] !== currentProfit) {
             performanceHistory.push(currentProfit);
             
-            // Batasi riwayat hanya 10-15 data agar grafik tidak terlalu padat
+            // Batasi 15 data terakhir
             if (performanceHistory.length > 15) performanceHistory.shift();
         }
 
-        // 3. PANGGIL FUNGSI GRAFIK DI SINI
+        // Jalankan fungsi grafik setiap kali fetch berhasil 
+        // agar grafik muncul sejak awal halaman dimuat
         updatePerfGraph(performanceHistory);
 
     } catch (error) {
         console.error('Error Syncing Data:', error);
     }
 }
+
+// Inisialisasi pertama
 updatePerformance();
-// Refresh otomatis tiap 5 menit
-setInterval(updatePerformance, 4000);
+
+// Interval 4 detik (Sangat agresif, pastikan Google Sheets tidak memblokir request)
+// Jika nanti kena blokir, naikkan ke 30000 (30 detik)
+setInterval(updatePerformance, 30000);
 // Popup Notif Logic
 const names = ["Andi dari Jakarta", "Siska dari Surabaya", "Budi dari Medan", "Rian dari Bali", "Dewi dari Bandung"];
 function showPopup() {
