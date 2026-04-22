@@ -3,78 +3,235 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perjanjian Investasi | ICDEX</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <title>Perjanjian Layanan | ICDEX - GOCFX</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background: #020617; color: #f8fafc; line-height: 1.6; padding: 40px 20px; }
-        .container { max-width: 800px; margin: auto; background: #0f172a; padding: 40px; border-radius: 20px; border: 1px solid #1e293b; }
-        h1 { color: #22c55e; font-size: 1.5rem; border-bottom: 2px solid #1e293b; padding-bottom: 10px; }
-        .content { height: 400px; overflow-y: scroll; padding-right: 15px; margin: 20px 0; font-size: 0.9rem; color: #94a3b8; }
-        .checkbox-group { display: flex; align-items: flex-start; gap: 10px; margin: 30px 0; cursor: pointer; }
-        input[type="checkbox"] { width: 20px; height: 20px; accent-color: #22c55e; }
-        .btn { display: inline-block; width: 100%; padding: 15px; text-align: center; border-radius: 10px; text-decoration: none; font-weight: 600; transition: 0.3s; }
-        .btn-primary { background: #22c55e; color: #000; }
-        .btn-disabled { background: #334155; color: #94a3b8; pointer-events: none; opacity: 0.5; }
-        .back-link { display: block; text-align: center; margin-top: 20px; color: #94a3b8; text-decoration: none; font-size: 0.8rem; }
+        :root {
+            --primary: #22c55e;
+            --bg-dark: #020617;
+            --card-bg: #0f172a;
+            --border: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: var(--bg-dark); 
+            color: var(--text-main); 
+            line-height: 1.6; 
+            padding: 40px 20px; 
+            margin: 0;
+        }
+
+        .container { 
+            max-width: 850px; 
+            margin: auto; 
+            background: var(--card-bg); 
+            padding: 40px; 
+            border-radius: 24px; 
+            border: 1px solid var(--border); 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        h1 { 
+            color: var(--primary); 
+            font-size: 1.8rem; 
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+            display: block;
+        }
+
+        /* Box Perjanjian */
+        .tc-box { 
+            height: 450px; 
+            overflow-y: auto; 
+            padding: 25px; 
+            background: rgba(2, 6, 23, 0.5);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+            color: #cbd5e1;
+        }
+
+        /* Custom Scrollbar */
+        .tc-box::-webkit-scrollbar { width: 6px; }
+        .tc-box::-webkit-scrollbar-track { background: transparent; }
+        .tc-box::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+
+        h3 { 
+            color: var(--primary); 
+            font-size: 1.1rem; 
+            margin-top: 25px; 
+            border-left: 3px solid var(--primary);
+            padding-left: 10px;
+        }
+
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+
+        /* Form Actions */
+        .checkbox-group { 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            margin-bottom: 30px; 
+            padding: 15px;
+            background: rgba(34, 197, 94, 0.05);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .checkbox-group:hover { background: rgba(34, 197, 94, 0.1); }
+
+        input[type="checkbox"] { 
+            width: 22px; 
+            height: 22px; 
+            accent-color: var(--primary); 
+            cursor: pointer;
+        }
+
+        .btn { 
+            display: block; 
+            width: 100%; 
+            padding: 18px; 
+            text-align: center; 
+            border-radius: 12px; 
+            text-decoration: none; 
+            font-weight: 700; 
+            font-size: 1rem;
+            transition: 0.3s all ease; 
+            border: none;
+        }
+
+        .btn-primary { 
+            background: var(--primary); 
+            color: #000; 
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4);
+        }
+
+        .btn-disabled { 
+            background: #1e293b; 
+            color: #475569; 
+            pointer-events: none; 
+            cursor: not-allowed;
+        }
+
+        .back-link { 
+            display: block; 
+            text-align: center; 
+            margin-top: 25px; 
+            color: var(--text-muted); 
+            text-decoration: none; 
+            font-size: 0.85rem; 
+            transition: 0.3s;
+        }
+
+        .back-link:hover { color: var(--text-main); }
+
+        .footer-note {
+            background: rgba(34, 197, 94, 0.1); 
+            padding: 15px; 
+            border-radius: 8px; 
+            margin-top: 20px; 
+            border: 1px dashed var(--primary);
+            font-size: 0.85rem;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>ICDEX</h1>
+    <h1>ICDEX - GOCFX</h1>
+    <span class="subtitle">Trading System Service Agreement</span>
     
-    <div class="content">
-        <strong>TERMS & CONDITIONS INVESTASI FOREX (STANDARD RISK DISCLOSURE)</strong><br><br>
-        
-        <strong>1. Ketentuan Umum</strong><br>
-        1.1. Layanan ini merupakan penyediaan teknologi algoritma trading (Expert Advisor) untuk aktivitas trading forex.<br>
-        1.2. Pengelola tidak memberikan jaminan keuntungan (fixed profit) dalam bentuk atau persentase apa pun.<br>
-        1.3. Seluruh keputusan untuk mengikuti sinyal atau copytrade dan layanan lainnya berada di tangan investor sepenuhnya.<br><br>
+    <div class="tc-box">
+        <div style="text-align: center; margin-bottom: 25px;">
+            <strong style="font-size: 1.2rem; color: var(--primary);">PERJANJIAN LAYANAN TRADING SYSTEM</strong>
+        </div>
 
-        <strong>2. Risiko Investasi & Tanggung Jawab Modal</strong><br>
-        2.1. Investor menyadari bahwa pasar finansial bersifat volatil. Seluruh aktivitas trading memiliki potensi kerugian sebagian hingga seluruh modal (Loss of Capital).<br>
-        2.2. Tidak ada skema kompensasi, ganti rugi, atau pengembalian modal atas kerugian yang terjadi akibat aktivitas trading.<br>
-        2.3. Modal yang digunakan harus merupakan "dana dingin" (risk capital).<br><br>
+        <p>Perjanjian ini dibuat dan disepakati antara <strong>ICDEX</strong> (Penyedia) dan <strong>Investor</strong> (Pelanggan). Dengan melakukan pembayaran biaya setup atau menghubungkan akun, Investor menyatakan setuju pada ketentuan berikut:</p>
 
-        <strong>3. Kebijakan Transaksi & Kurs</strong><br>
-        3.1. Ditetapkan kurs internal tetap (Fix Rate) sebesar 1 USD = Rp10.000 untuk seluruh transaksi deposit dan penarikan (withdrawal).<br>
-        3.2. Selisih antara kurs pasar dan kurs tetap merupakan bagian dari kebijakan administrasi layanan.<br><br>
+        <h3>Pasal 1: Model Layanan & Biaya</h3>
+        <ul>
+            <li><strong>Sewa Robot (Private):</strong> Biaya setup <strong>Rp 3.000.000,-</strong> di awal. Bersifat <em>non-refundable</em> untuk 1 nomor akun.</li>
+            <li><strong>Copy Trading:</strong> Mengikuti Master Account. Biaya sesuai kebijakan platform copy trade.</li>
+            <li><strong>PAMM Account:</strong> Penempatan dana ke Pool Fund. Berlaku <em>Lock Period</em> 30 hari kalender.</li>
+        </ul>
 
-        <strong>4. Skema Bagi Hasil (Profit Sharing)</strong><br>
-        4.1. Rasio: Pembagian keuntungan ditetapkan dengan rasio 70% untuk Investor dan 30% untuk Pengelola.<br>
-        4.2. High Water Mark: Tagihan hanya berlaku jika saldo melampaui titik tertinggi sebelumnya.<br>
-        4.3. Jadwal: Bagi hasil ditagihkan setiap akhir pekan atau saat withdrawal.<br><br>
+        <h3>Pasal 2: Akses Akun & Privasi</h3>
+        <ul>
+            <li><strong>Data Login:</strong> Khusus Sewa Robot, wajib menyediakan Nomor Login, Password Master, dan Server.</li>
+            <li><strong>Monitoring:</strong> Untuk Copy Trading & PAMM, cukup menyediakan Investor Password.</li>
+            <li><strong>Kerahasiaan:</strong> Penyedia menjamin keamanan data hanya untuk operasional sistem GOCFX.</li>
+        </ul>
 
-        <strong>5. Mekanisme Layanan</strong><br>
-        5.1. Copy Trading: Akun otomatis menyalin transaksi master. Kontrol penuh di investor.<br>
-        5.2. Sewa Robot: Pembayaran lisensi di depan. Investor bertanggung jawab atas VPS.<br>
-        5.3. PAMM Account: Dana digabungkan dalam satu pool besar dikelola Money Manager.<br><br>
+        <h3>Pasal 3: Sistem Bagi Hasil (Profit Sharing)</h3>
+        <ul>
+            <li><strong>Proporsi:</strong> Pembagian keuntungan <strong>30% Penyedia : 70% Investor</strong>.</li>
+            <li><strong>Mekanisme Sewa Robot:</strong> Wajib transfer bagi hasil maksimal <strong>24 jam</strong> setelah WD.</li>
+            <li><strong>Sanksi:</strong> Keterlambatan pembayaran bagi hasil mengakibatkan pemutusan koneksi robot secara sepihak.</li>
+        </ul>
 
-        <strong>6. Aturan Khusus Deposit & Penarikan</strong><br>
-        6.1. Copy Trading: WD bebas, wajib sedia dana profit sharing.<br>
-        6.2. Sewa Robot: Pembayaran lisensi ke BCA 5965086037 a.n. Anton Sugiarto.<br>
-        6.3. PAMM Account: Masa Lock Period 30 hari. Penarikan sebelum masa lock dikenakan penalti 5%.<br><br>
+        <h3>Pasal 4: Kebijakan Garansi Kompensasi 70%</h3>
+        <p>Penyedia memberikan kompensasi 70% dari Modal Bersih (Net Deposit) jika terjadi Margin Call (MC) dengan syarat:</p>
+        <ul>
+            <li>Hanya berlaku untuk tipe <strong>CONSERVATIVE</strong> dan <strong>MODERATE</strong>.</li>
+            <li>Tipe <strong>AGGRESSIVE</strong> tidak masuk dalam cakupan garansi.</li>
+            <li>Perhitungan: (Total Deposit - Total Withdrawal).</li>
+        </ul>
 
-        <strong>7. Kondisi Market & Teknis</strong><br>
-        7.1. Pengelola tidak bertanggung jawab atas: Slippage, pelebaran spread, gangguan internet/VPS, atau kegagalan sistem broker.<br><br>
+        <h3>Pasal 5: Pembatalan Garansi</h3>
+        <p>Hak kompensasi <strong>BATAL</strong> secara otomatis apabila ditemukan:</p>
+        <ul>
+            <li><strong>Intervensi Manual:</strong> Buka/tutup posisi atau ubah SL/TP tanpa koordinasi.</li>
+            <li><strong>Modifikasi:</strong> Mengubah parameter lot atau mengganti nomor akun tanpa izin.</li>
+            <li><strong>Aktivitas Campuran:</strong> Menggunakan robot lain atau trading manual di akun yang sama.</li>
+            <li><strong>Pelanggaran Margin:</strong> Penarikan dana (WD) saat posisi <em>floating</em>.</li>
+        </ul>
 
-        <strong>8. Hak Intervensi</strong><br>
-        8.1. Investor berhak menghentikan layanan kapan saja sesuai prosedur broker.<br><br>
+        <h3>Pasal 6: Disclaimer</h3>
+        <ul>
+            <li>Penyedia tidak bertanggung jawab atas kendala teknis broker (Slippage, Spread melar, Server Down).</li>
+            <li>Penyedia tidak bertanggung jawab atas kondisi <em>Force Majeure</em> pasar global.</li>
+        </ul>
 
-        <strong>9. Penegasan Persetujuan</strong><br>
-        Forex berisiko tinggi, kerugian modal adalah tanggung jawab investor sepenuhnya.
+        <div class="footer-note">
+            <strong>Persetujuan:</strong><br>
+            Dengan mendaftar, membayar biaya setup, atau menghubungkan akun, Investor dianggap telah membaca, memahami, dan menyetujui seluruh ketentuan ini tanpa paksaan.
+        </div>
     </div>
 
+    <label class="checkbox-group">
+        <input type="checkbox" id="agreeCheckbox" onchange="toggleRegButton()">
+        <span>Saya telah membaca dan menyetujui seluruh isi perjanjian di atas.</span>
+    </label>
    
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSffru2cQiAw83FyrDWUgig1XJ-u4L0uAjRt9EmhQZ23IYoglw/viewform?usp=publish-editor" class="btn btn-primary" id="btnNext" class="btn btn-disabled">Lanjutkan ke Pendaftaran</a>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSffru2cQiAw83FyrDWUgig1XJ-u4L0uAjRt9EmhQZ23IYoglw/viewform" 
+       class="btn btn-disabled" id="btnNext">Lanjutkan ke Pendaftaran</a>
     
     <a href="index.html" class="back-link">← Kembali ke Halaman Utama</a>
 </div>
 
 <script>
-    function toggleButton() {
-        const check = document.getElementById('agreeCheck');
+    function toggleRegButton() {
+        const check = document.getElementById('agreeCheckbox');
         const btn = document.getElementById('btnNext');
+        
         if(check.checked) {
             btn.classList.remove('btn-disabled');
             btn.classList.add('btn-primary');
